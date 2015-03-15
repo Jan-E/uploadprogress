@@ -436,9 +436,9 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
  */
 static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long maxlen, zval *return_value)
 {
-#if defined(ZEND_ENGINE_3) /* borrowed from phar/func_interceptors.c */
+#if defined(ZEND_ENGINE_3)
     char *filename, *template, *data_identifier;
-	zend_string *contents;
+    zend_string *contents;
 #else
     char *filename, *template, *contents, *data_identifier;
 #endif
@@ -468,9 +468,9 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 
         /* uses mmap if possible */
 #if defined(ZEND_ENGINE_3)
-		contents = php_stream_copy_to_mem(stream, maxlen, 0);
-		len = contents->len;
-		if (contents && len > 0) {
+        contents = php_stream_copy_to_mem(stream, maxlen, 0);
+        len = contents->len;
+        if (contents && len > 0) {
 #else
         if ((len = php_stream_copy_to_mem(stream, &contents, maxlen, 0)) > 0) {
 #endif
