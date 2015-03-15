@@ -1,0 +1,9 @@
+// $Id: config.w32 224439 2006-12-05 23:10:49Z fmk $
+// vim:ft=javascript
+
+ARG_ENABLE('uploadprogress' , 'The Upload Progress extension', 'no');
+
+if (PHP_UPLOADPROGRESS != "no") {
+	EXTENSION("uploadprogress", "uploadprogress.c");
+	AC_DEFINE('HAVE_UPLOADPROGRESS', 1, 'The Upload Progress extension');
+}
