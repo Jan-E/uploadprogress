@@ -490,7 +490,7 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
             }
 #endif
 #if defined(ZEND_ENGINE_3)
-            RETVAL_STRINGL((char *)contents, len);
+            RETVAL_STR(contents);
 #else
             RETVAL_STRINGL(contents, len, 0);
 #endif
