@@ -162,7 +162,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 #else
                 int options = ENFORCE_SAFE_MODE;
 #endif
-				
+
                 stream = php_stream_open_wrapper(progress->data_filename, "ab", options, NULL);
                 if (stream) {
                     php_stream_write(stream, e_data->data, e_data->length);
