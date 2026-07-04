@@ -91,7 +91,11 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 {
     uploadprogress_data *progress;
     int read_bytes;
+#if PHP_VERSION_ID >= 80600
+    zend_bool get_contents = zend_ini_bool_literal("uploadprogress.get_contents");
+#else
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
+#endif
 
     progress = *data;
 
@@ -118,7 +122,11 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 
         if (strcmp(e_data->name, "UPLOAD_IDENTIFIER") == 0)  {
             char **upload_id;
+#if PHP_VERSION_ID >= 80600
+            char *template = zend_ini_str_literal("uploadprogress.file.filename_template");
+#else
             char *template = INI_STR("uploadprogress.file.filename_template");
+#endif
 
             if (strcmp(template, "") == 0)  {
                 return FAILURE;
@@ -162,7 +170,11 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             sprintf(data_identifier, "%s-%s", progress->upload_id, progress->fieldname);
 
             if (get_contents) {
+#if PHP_VERSION_ID >= 80600
+                char *data_template = zend_ini_str_literal("uploadprogress.file.contents_template");
+#else
                 char *data_template = INI_STR("uploadprogress.file.contents_template");
+#endif
 
                 if (strcmp(data_template, "") == 0) {
                     return FAILURE;
@@ -372,7 +384,11 @@ PHP_FUNCTION(uploadprogress_get_contents)
     int id_len, fieldname_len;
 #endif
     long maxlen = PHP_STREAM_COPY_ALL;
+#if PHP_VERSION_ID >= 80600
+    zend_bool get_contents = zend_ini_bool_literal("uploadprogress.get_contents");
+#else
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
+#endif
 
     if (!get_contents) {
 #if PHP_API_VERSION >= 20190128
@@ -445,7 +461,11 @@ static void uploadprogress_file_php_get_info(char *id, zval *return_value)
     TSRMLS_FETCH();
 #endif
 
+#if PHP_VERSION_ID >= 80600
+    template = zend_ini_str_literal("uploadprogress.file.filename_template");
+#else
     template = INI_STR("uploadprogress.file.filename_template");
+#endif
 
     if (strcmp(template, "") == 0)  {
         return;
@@ -545,7 +565,11 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
     TSRMLS_FETCH();
 #endif
 
+#if PHP_VERSION_ID >= 80600
+    template = zend_ini_str_literal("uploadprogress.file.contents_template");
+#else
     template = INI_STR("uploadprogress.file.contents_template");
+#endif
 
     if (strcmp(template, "") == 0) {
         return;
